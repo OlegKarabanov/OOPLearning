@@ -1,63 +1,133 @@
 package constructorTest;
-
 import java.util.Enumeration;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-    Person person = new Person("Sergei", 28 ,"Proletarskaya 10", "88005553535");
-    Person.getCounter();
-    Fraction fraction = new Fraction(1,10);
+    public static void main(String[] args){
+        Fraction fr = new Fraction( 1, 2);
+        fr.add1ToNumerator().add1ToNumerator().add1ToNumerator().add1ToNumerator().add1ToNumerator();
+
+        Person oleg = new Person("Konin", "Oleg",'m');
+        System.out.println(oleg);
+
+        Employee olga = new Employee("Svetova", "Olga",'f', "Buhgalter");
+        olga.setFirstName("Olga");
+        olga.setLastName("Svetova");
+        olga.setGender('f');
+
+        System.out.println(olga);
+        olga.tellMiWhoAreU();
+
+
+        Person olga2 = olga;
+
+        System.out.println(olga2);
+        ((Employee) olga2).tellMiWhoAreU();
+
+
     }
 
 }
-    class Person{
-    int id;
-    private String name;
-    private int age;
-    private static int counter = 0;
 
-        public static int getCounter() {
-            return counter;
-        }
+class Fraction {
+    private int numerator; // числитель
+    private int denominator; // знаменатель
 
-        static {
-        System.out.println(counter);
-
-    }
-        public Person(String name, int age, String address, String phone) {
-            id = counter++;
-            this.name = name;
-            this.age = age;
-        }
-
-
-        public String getName() {
-            return name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-    }
-class Fraction{
-    int numerator;
-    int denominator=1;
-
-    public Fraction(int numerator, int denominator){
-        if(denominator==0){
+    public Fraction(int numerator, int denominator) {
+        if (denominator == 0) {
             System.out.println("Denominator can't be zero");
             return;
         }
         this.numerator = numerator;
         this.denominator = denominator;
     }
+     public Fraction add1ToNumerator() {
+         this.numerator++;
+         return this;
+     }
+     public Fraction getObjetCurrent() {return this;}
+}
+
+class Person {
+    protected String firstName;
+    protected String lastName;
+    protected char gender;   // m - male, f - female
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public Person (){
+        this("", "", '-');
+    }
+
+    public Person(String  lastName){
+        this(lastName, "", '-');
+    }
+
+    public Person(String lastName,String firstName,char gender){
+        this(lastName, firstName);
+        this.gender = gender;
+    }
+
+    public Person (String lastName, String firstName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
+}
+
+
+class Employee extends Person{
+   protected String dolzhnost;
+
+
+    public Employee(String lastName, String firstName, char gender, String dolzhnost) {
+        super(lastName, firstName, gender);
+        this.dolzhnost = dolzhnost;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", dolzhnost='" + dolzhnost + '\'' +
+                '}';
+    }
+
+    public void tellMiWhoAreU(){
+        System.out.println("Hello, I'm employee, and my class is " + this.getClass());
+    }
+
 }
